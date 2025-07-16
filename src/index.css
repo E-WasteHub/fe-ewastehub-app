@@ -1,1 +1,13 @@
 @import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Mulish', sans-serif;
+  --font-family: 'Mulish', sans-serif;
+}
+
+/* Global styles - Force instant scroll behavior */
+*,
+*::before,
+*::after {
+  scroll-behavior: auto !important;
+}
