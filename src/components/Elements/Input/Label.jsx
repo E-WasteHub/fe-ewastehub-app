@@ -7,7 +7,7 @@ const Label = ({ htmlFor, children }) => {
     <label
       htmlFor={htmlFor}
       className={`block mb-2 text-sm font-bold ${
-        isDarkMode ? 'text-slate-300' : 'text-slate-700'
+        isDarkMode ? 'text-slate-700' : 'text-slate-300'
       }`}
     >
       {children}

@@ -13,8 +13,8 @@ const Input = forwardRef(({ type, placeholder, name, ...props }, ref) => {
         focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent
         ${
           isDarkMode
-            ? 'bg-slate-800 border-slate-600 text-slate-50'
-            : 'bg-white border-slate-300 text-slate-900'
+            ? 'bg-white border-slate-300 text-slate-900'
+            : 'bg-slate-800 border-slate-600 text-slate-50'
         }
       `}
       placeholder={placeholder}

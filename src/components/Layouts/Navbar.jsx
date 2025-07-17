@@ -3,6 +3,8 @@ import ewasteDarkLogo from '../../assets/img/ewasteDark.png';
 import ewasteLightLogo from '../../assets/img/ewasteLight.png';
 import useDarkMode from '../../hooks/useDarkMode';
 import ThemeSelector from '../Elements/ThemeSelector';
+// IMPOR FUNGSI DARI FILE BARU
+import { getNavbarComponentClass } from '../../utils/navbarStyles';
 
 const Navbar = () => {
   const { isDarkMode } = useDarkMode();
@@ -14,50 +16,12 @@ const Navbar = () => {
     { to: '/faq', text: 'FAQ' },
   ];
 
-  // Fungsi ini sekarang menggunakan isDarkMode
-  const getNavLinkClass = ({ isActive }) => {
-    if (isActive) {
-      return `relative transition-colors px-2 py-2 ${
-        isDarkMode ? 'text-green-400' : 'text-green-600'
-      }`;
-    }
-    return `relative transition-colors px-2 py-2 ${
-      isDarkMode
-        ? 'hover:text-green-400 hover:bg-green-900/20'
-        : 'hover:text-green-600 hover:bg-green-50'
-    }`;
-  };
-
-  // Fungsi ini sekarang menggunakan isDarkMode
-  const getLoginButtonClass = ({ isActive }) => {
-    const baseClasses =
-      'relative transition-all duration-200 px-4 py-2 rounded-lg font-medium';
-    if (isActive) {
-      return `${baseClasses} text-white bg-green-600 shadow-lg`;
-    }
-    return `${baseClasses} ${
-      isDarkMode
-        ? 'text-slate-300 hover:text-white hover:bg-slate-800 border border-slate-700'
-        : ' text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-4e00'
-    }`;
-  };
-
-  // Fungsi ini tetap sama karena tidak bergantung pada dark mode untuk gaya aktifnya
-  const getRegisterButtonClass = ({ isActive }) => {
-    const baseClasses =
-      'relative transition-all duration-200 px-4 py-2 rounded-lg font-medium';
-    if (isActive) {
-      return `${baseClasses} text-white bg-green-700 shadow-lg`;
-    }
-    return `${baseClasses} text-white bg-green-600 hover:bg-green-700 shadow-md hover:shadow-lg`;
-  };
-
   return (
     <header
       className={`sticky top-0 z-40 w-full border-b shadow-md backdrop-blur-lg ${
         isDarkMode
-          ? 'bg-slate-900 border-slate-700'
-          : 'bg-white border-slate-200'
+          ? 'bg-slate-900/80 border-slate-700'
+          : 'bg-white/80 border-slate-200'
       }`}
     >
       <div className='flex items-center justify-between px-4 py-3 mx-auto max-w-7xl'>
@@ -69,8 +33,10 @@ const Navbar = () => {
           />
           <Link
             to='/'
-            className={`text-xl font-bold transition-colors hover:text-green-700 ${
-              isDarkMode ? 'text-green-400' : 'text-green-600'
+            className={`text-xl font-bold transition-colors ${
+              isDarkMode
+                ? 'text-green-400 hover:text-green-300'
+                : 'text-green-600 hover:text-green-700'
             }`}
           >
             EwasteHub
@@ -78,7 +44,7 @@ const Navbar = () => {
         </div>
 
         <nav
-          className={`items-center hidden space-x-8 text-sm font-medium lg:flex ${
+          className={`items-center hidden space-x-4 text-sm font-medium lg:flex ${
             isDarkMode ? 'text-white' : 'text-slate-900'
           }`}
         >
@@ -86,7 +52,13 @@ const Navbar = () => {
             <NavLink
               key={link.to}
               to={link.to}
-              className={getNavLinkClass}
+              className={({ isActive }) =>
+                getNavbarComponentClass({
+                  isActive,
+                  isDarkMode,
+                  variant: 'navLink',
+                })
+              }
               end={link.to === '/'}
             >
               {({ isActive }) => (
@@ -107,10 +79,28 @@ const Navbar = () => {
           <ThemeSelector />
 
           <div className='flex items-center gap-3'>
-            <NavLink to='/login' className={getLoginButtonClass}>
+            <NavLink
+              to='/login'
+              className={({ isActive }) =>
+                getNavbarComponentClass({
+                  isActive,
+                  isDarkMode,
+                  variant: 'login',
+                })
+              }
+            >
               Masuk
             </NavLink>
-            <NavLink to='/register' className={getRegisterButtonClass}>
+            <NavLink
+              to='/register'
+              className={({ isActive }) =>
+                getNavbarComponentClass({
+                  isActive,
+                  isDarkMode,
+                  variant: 'register',
+                })
+              }
+            >
               Daftar
             </NavLink>
           </div>

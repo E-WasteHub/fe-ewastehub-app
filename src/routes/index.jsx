@@ -55,22 +55,8 @@ const AppRoutes = () => {
       <Route path='/panduan-aplikasi' element={<PanduanAplikasiPage />} />
 
       {/* --- Rute Autentikasi (Login & Register) --- */}
-      <Route
-        path='/login'
-        element={
-          <AuthLayout>
-            <LoginPage />
-          </AuthLayout>
-        }
-      />
-      <Route
-        path='/register'
-        element={
-          <AuthLayout>
-            <RegisterPage />
-          </AuthLayout>
-        }
-      />
+      <Route path='/login' element={<LoginPage />} />
+      <Route path='/register' element={<RegisterPage />} />
 
       {/* TODO: Rute Privat (Protected Routes)
         Nantinya, rute yang memerlukan login akan ditempatkan di sini.
