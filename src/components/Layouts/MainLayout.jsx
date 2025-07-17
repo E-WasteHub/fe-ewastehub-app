@@ -1,22 +1,17 @@
-// components/Layouts/MainLayout.jsx
-import useScrollReset from '../../hooks/useScrollReset';
 import ScrollToTop from '../Elements/ScrollToTop';
 import BottomNavbar from './BottomNavbar';
 import Footer from './Footer';
 import Navbar from './Navbar';
 
 const MainLayout = ({ children }) => {
-  // Automatically reset scroll position on route change
-  useScrollReset();
-
   return (
-    <>
+    <div className='flex flex-col min-h-screen'>
       <Navbar />
-      <main className='min-h-screen pb-20 md:pb-0'>{children}</main>
+      <main className='flex-grow'>{children}</main>
       <Footer />
       <BottomNavbar />
       <ScrollToTop />
-    </>
+    </div>
   );
 };
 

@@ -1,23 +1,25 @@
 import { motion as Motion } from 'motion/react';
+import { Link } from 'react-router-dom';
 import { faqData } from '../../../data/faqData';
 import useDarkMode from '../../../hooks/useDarkMode';
 import Accordion from '../../Elements/Accordion';
 import Button from '../../Elements/Button';
 
-const FAQSection = () => {
+const FAQSection = ({ id = '' }) => {
   const { isDarkMode } = useDarkMode();
 
   return (
     <section
-      className={`py-16 px-4 md:px-8 ${
+      id={id}
+      className={`px-4 py-16 md:px-8 ${
         isDarkMode ? 'bg-slate-800' : 'bg-slate-50'
       }`}
     >
       <div className='max-w-4xl mx-auto'>
-        {/* Header */}
-        <div className='text-center mb-12'>
+        {/* --- Header --- */}
+        <div className='mb-12 text-center'>
           <h2
-            className={`text-3xl md:text-4xl font-bold mb-4 ${
+            className={`mb-4 text-3xl font-bold md:text-4xl ${
               isDarkMode ? 'text-white' : 'text-slate-900'
             }`}
           >
@@ -29,34 +31,29 @@ const FAQSection = () => {
             }`}
           >
             Temukan jawaban untuk pertanyaan umum seputar layanan E-wasteHub dan
-            pengelolaan sampah elektronik
+            pengelolaan sampah elektronik.
           </p>
         </div>
 
-        {/* FAQ List */}
+        {/* --- FAQ List --- */}
         <div className='space-y-4'>
           {faqData && faqData.length > 0 ? (
-            faqData.slice(0, 6).map((faq, index) => (
+            faqData.slice(0, 5).map((faq, index) => (
               <Motion.div
                 key={faq.id || index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.08, duration: 0.4 }}
+                transition={{ delay: index * 0.1, duration: 0.5 }}
                 viewport={{ once: true }}
               >
+                {/* Accordion akan menangani dark mode-nya sendiri */}
                 <Accordion title={faq.question}>
-                  <p
-                    className={`leading-relaxed ${
-                      isDarkMode ? 'text-slate-300' : 'text-slate-600'
-                    }`}
-                  >
-                    {faq.answer}
-                  </p>
+                  <p>{faq.answer}</p>
                 </Accordion>
               </Motion.div>
             ))
           ) : (
-            <div className='text-center py-8'>
+            <div className='py-8 text-center'>
               <p
                 className={`text-lg ${
                   isDarkMode ? 'text-slate-300' : 'text-slate-600'
@@ -67,12 +64,16 @@ const FAQSection = () => {
             </div>
           )}
         </div>
-        {/* Button lihat semua Faq */}
-        <div className='text-end mt-8'>
-          <Button variant='primary' className='text-green-500'>
-            Lihat Semua Faq
-          </Button>
-        </div>
+
+        {/* --- Tombol "Lihat Semua" --- */}
+        {faqData.length > 5 && (
+          <div className='mt-8 text-center'>
+            <Link to='/faq'>
+              {/* Button akan menangani dark mode-nya sendiri */}
+              <Button variant='primary'>Lihat Semua FAQ</Button>
+            </Link>
+          </div>
+        )}
       </div>
     </section>
   );

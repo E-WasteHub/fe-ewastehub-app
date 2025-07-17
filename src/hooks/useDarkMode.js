@@ -8,35 +8,30 @@ const useDarkMode = () => {
     throw new Error('useDarkMode must be used within a DarkModeProvider');
   }
 
-  const { theme, isDarkMode, changeTheme, getSystemPreference, isSystemTheme } =
-    context;
-
-  // Helper functions
-  const setLightMode = () => changeTheme('light');
-  const setDarkMode = () => changeTheme('dark');
-  const setSystemMode = () => changeTheme('system');
-  const toggleTheme = () => changeTheme(isDarkMode ? 'light' : 'dark');
+  // --- Fungsi Pembantu untuk mengubah tema ---
+  const setLightMode = () => context.changeTheme('light');
+  const setDarkMode = () => context.changeTheme('dark');
+  const setSystemMode = () => context.changeTheme('system');
+  const toggleTheme = () =>
+    context.changeTheme(context.isDarkMode ? 'light' : 'dark');
 
   return {
-    // Core state
-    theme,
-    isDarkMode,
-    isSystemTheme,
+    // --- State Inti ---
+    theme: context.theme,
+    isDarkMode: context.isDarkMode,
 
-    // Theme change functions
-    changeTheme,
+    // --- Fungsi Pengubah ---
+    // DIUBAH: Kembalikan nama ke 'changeTheme' agar konsisten
+    changeTheme: context.changeTheme,
+    toggleTheme,
     setLightMode,
     setDarkMode,
     setSystemMode,
-    toggleTheme,
 
-    // Helper functions
-    getSystemPreference,
-
-    // Status helpers
-    isLight: theme === 'light',
-    isDark: theme === 'dark',
-    isSystem: theme === 'system',
+    // --- Helper Boolean ---
+    isLight: context.theme === 'light',
+    isDark: context.theme === 'dark',
+    isSystem: context.theme === 'system',
   };
 };
 

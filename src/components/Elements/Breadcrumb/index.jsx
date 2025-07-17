@@ -1,26 +1,35 @@
-// components/Elements/Breadcrumb/index.jsx
-import { FiChevronRight } from 'react-icons/fi';
-import useDarkMode from '../../../hooks/useDarkMode';
+import { ChevronRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import useDarkMode from '../../../hooks/useDarkMode'; // 1. Impor useDarkMode
 
-const Breadcrumb = ({ paths }) => {
-  const { isDarkMode } = useDarkMode();
+const Breadcrumb = ({ paths = [] }) => {
+  const { isDarkMode } = useDarkMode(); // 2. Panggil hook
 
   return (
-    <nav
-      className={`text-sm ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}
-      aria-label='Breadcrumb'
-    >
-      <ol className='flex items-center space-x-1'>
+    <nav aria-label='Breadcrumb'>
+      <ol className='flex items-center space-x-1 text-sm'>
         {paths.map((path, index) => (
           <li key={index} className='flex items-center'>
-            {index > 0 && <FiChevronRight className='mx-1 text-slate-400' />}
+            {index > 0 && (
+              <ChevronRight className='mx-1 h-4 w-4 flex-shrink-0 text-slate-400' />
+            )}
+
             {path.href ? (
-              <a href={path.href} className='text-blue-600 hover:underline'>
+              <Link
+                to={path.href}
+                // 3. Gunakan isDarkMode untuk styling
+                className={`hover:underline ${
+                  isDarkMode ? 'text-green-400' : 'text-green-600'
+                }`}
+              >
                 {path.label}
-              </a>
+              </Link>
             ) : (
+              // 3. Gunakan isDarkMode untuk styling
               <span
-                className={isDarkMode ? 'text-slate-100' : 'text-slate-800'}
+                className={`font-medium ${
+                  isDarkMode ? 'text-slate-200' : 'text-slate-700'
+                }`}
               >
                 {path.label}
               </span>

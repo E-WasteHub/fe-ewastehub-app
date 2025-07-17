@@ -1,51 +1,43 @@
 export const faqData = [
   {
-    id: 1,
-    question: 'Apa itu E-wasteHub dan bagaimana cara kerjanya?',
+    question: 'Apa itu E-wasteHub?',
     answer:
-      'E-wasteHub adalah platform digital yang memudahkan masyarakat untuk mendaur ulang sampah elektronik. Anda cukup daftar, pilih kategori e-waste, jadwalkan penjemputan, dan tim kurir kami akan datang ke lokasi Anda.',
+      'E-wasteHub adalah platform digital yang memudahkan masyarakat untuk mengelola sampah elektronik dengan cara yang bertanggung jawab dan ramah lingkungan. Kami menghubungkan pengguna dengan sistem pengumpulan, pemilahan, dan daur ulang e-waste.',
   },
   {
-    id: 2,
-    question: 'Jenis sampah elektronik apa saja yang diterima?',
+    question: 'Jenis e-waste apa saja yang diterima?',
     answer:
-      'Kami menerima berbagai jenis e-waste seperti smartphone, laptop, TV, kulkas, speaker, headphone, dan peralatan elektronik lainnya. Setiap kategori memiliki poin reward yang berbeda.',
+      'Kami menerima berbagai jenis sampah elektronik seperti smartphone, laptop, komputer, TV, peralatan dapur elektronik, baterai, kabel, dan komponen elektronik lainnya.',
   },
   {
-    id: 3,
-    question: 'Apakah layanan penjemputan dikenakan biaya?',
+    question: 'Bagaimana cara kerja sistem poin reward?',
     answer:
-      'Tidak, layanan penjemputan kami sepenuhnya gratis. Anda hanya perlu memastikan lokasi dapat diakses oleh tim kurir kami dan e-waste sudah siap untuk dijemput.',
+      'Setiap kali Anda menyerahkan e-waste, Anda akan mendapatkan poin berdasarkan jenis dan kondisi barang. Poin ini dapat ditukarkan dengan berbagai benefit seperti voucher atau donasi.',
   },
   {
-    id: 4,
-    question: 'Bagaimana sistem poin reward bekerja?',
+    question: 'Apakah layanan ini gratis?',
     answer:
-      'Setiap jenis e-waste memiliki nilai poin berbeda berdasarkan berat dan jenis perangkat. Poin yang terkumpul dapat ditukarkan dengan berbagai hadiah menarik atau disumbangkan untuk program lingkungan.',
+      'Ya, layanan pengumpulan dan pemrosesan e-waste melalui E-wasteHub sepenuhnya gratis. Bahkan, Anda akan mendapatkan reward dari setiap kontribusi e-waste yang diserahkan.',
+  },
+  // ... (Tambahkan sisa data FAQ Anda di sini)
+  {
+    question: 'Bagaimana cara menjadwalkan pengambilan e-waste?',
+    answer:
+      'Anda dapat menjadwalkan pengambilan melalui aplikasi dengan memilih tanggal dan waktu yang sesuai. Tim kurir kami akan datang ke lokasi Anda untuk mengambil e-waste yang telah didaftarkan.',
   },
   {
-    id: 5,
-    question: 'Apa yang terjadi dengan e-waste setelah dijemput?',
+    question: 'Apakah data pribadi di perangkat akan aman?',
     answer:
-      'E-waste akan dibawa ke pusat daur ulang resmi yang bekerja sama dengan kami. Material berharga akan dipisahkan dan didaur ulang, sedangkan zat berbahaya akan ditangani sesuai standar keamanan lingkungan.',
+      'Keamanan data adalah prioritas utama kami. Kami memiliki prosedur standar untuk menghapus semua data pribadi dari perangkat elektronik sebelum proses daur ulang.',
   },
   {
-    id: 6,
-    question: 'Berapa lama proses penjemputan setelah permintaan dibuat?',
+    question: 'Bagaimana proses daur ulang e-waste dilakukan?',
     answer:
-      'Normalnya penjemputan dilakukan dalam 1-3 hari kerja setelah permintaan Anda dikonfirmasi. Anda akan mendapat notifikasi real-time mengenai status penjemputan melalui aplikasi.',
+      'E-waste yang terkumpul akan dipilah berdasarkan jenis dan kondisi. Komponen yang masih baik akan digunakan kembali, sedangkan material seperti logam mulia akan diextraksi dengan teknologi ramah lingkungan.',
   },
   {
-    id: 7,
-    question:
-      'Bagaimana cara menghapus data pribadi dari perangkat elektronik?',
+    question: 'Bisakah saya melacak status e-waste yang telah diserahkan?',
     answer:
-      'Sebelum menyerahkan perangkat, pastikan Anda melakukan factory reset dan menghapus semua data pribadi. Tim kami juga akan melakukan penghapusan data tambahan sesuai standar keamanan internasional.',
-  },
-  {
-    id: 8,
-    question: 'Apakah ada minimum berat atau jumlah e-waste untuk penjemputan?',
-    answer:
-      'Tidak ada minimum khusus, namun kami sarankan minimal 5kg atau setara dengan 2-3 perangkat elektronik untuk efisiensi layanan penjemputan.',
+      'Ya, sistem kami menyediakan fitur tracking real-time. Anda dapat melihat status pengambilan, pemrosesan, dan dampak lingkungan yang telah Anda berikan melalui dashboard akun Anda.',
   },
 ];

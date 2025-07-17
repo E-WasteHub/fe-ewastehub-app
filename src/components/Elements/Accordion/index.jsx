@@ -1,7 +1,6 @@
-// components/Elements/Accordion/index.jsx
-import { AnimatePresence, motion as Motion } from 'motion/react';
+import { AnimatePresence, motion as Motion } from 'framer-motion';
+import { ChevronDown } from 'lucide-react';
 import { useState } from 'react';
-import { FiChevronDown } from 'react-icons/fi';
 import useDarkMode from '../../../hooks/useDarkMode';
 
 const Accordion = ({ title, children, defaultOpen = false }) => {
@@ -39,7 +38,7 @@ const Accordion = ({ title, children, defaultOpen = false }) => {
                 : 'text-slate-500 group-hover:text-slate-600'
             }`}
           >
-            <FiChevronDown className='w-5 h-5' />
+            <ChevronDown className='w-5 h-5' />
           </Motion.div>
         </div>
       </button>

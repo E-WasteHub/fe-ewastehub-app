@@ -1,23 +1,60 @@
-// components/Layouts/Navbar.jsx
-import { Link, useLocation } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
+import ewasteDarkLogo from '../../assets/img/ewasteDark.png';
+import ewasteLightLogo from '../../assets/img/ewasteLight.png';
 import useDarkMode from '../../hooks/useDarkMode';
 import ThemeSelector from '../Elements/ThemeSelector';
 
 const Navbar = () => {
   const { isDarkMode } = useDarkMode();
-  const location = useLocation();
 
-  // Helper function to check if current path matches the link
-  const isActiveLink = (path) => {
-    if (path === '/') {
-      return location.pathname === '/';
+  const navLinks = [
+    { to: '/', text: 'Beranda' },
+    { to: '/edukasi', text: 'Edukasi' },
+    { to: '/panduan-aplikasi', text: 'Panduan' },
+    { to: '/faq', text: 'FAQ' },
+  ];
+
+  // Fungsi ini sekarang menggunakan isDarkMode
+  const getNavLinkClass = ({ isActive }) => {
+    if (isActive) {
+      return `relative transition-colors px-2 py-2 ${
+        isDarkMode ? 'text-green-400' : 'text-green-600'
+      }`;
     }
-    return location.pathname.startsWith(path);
+    return `relative transition-colors px-2 py-2 ${
+      isDarkMode
+        ? 'hover:text-green-400 hover:bg-green-900/20'
+        : 'hover:text-green-600 hover:bg-green-50'
+    }`;
+  };
+
+  // Fungsi ini sekarang menggunakan isDarkMode
+  const getLoginButtonClass = ({ isActive }) => {
+    const baseClasses =
+      'relative transition-all duration-200 px-4 py-2 rounded-lg font-medium';
+    if (isActive) {
+      return `${baseClasses} text-white bg-green-600 shadow-lg`;
+    }
+    return `${baseClasses} ${
+      isDarkMode
+        ? 'text-slate-300 hover:text-white hover:bg-slate-800 border border-slate-700'
+        : ' text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-4e00'
+    }`;
+  };
+
+  // Fungsi ini tetap sama karena tidak bergantung pada dark mode untuk gaya aktifnya
+  const getRegisterButtonClass = ({ isActive }) => {
+    const baseClasses =
+      'relative transition-all duration-200 px-4 py-2 rounded-lg font-medium';
+    if (isActive) {
+      return `${baseClasses} text-white bg-green-700 shadow-lg`;
+    }
+    return `${baseClasses} text-white bg-green-600 hover:bg-green-700 shadow-md hover:shadow-lg`;
   };
 
   return (
     <header
-      className={`shadow-md border-b sticky top-0 z-40 ${
+      className={`sticky top-0 z-40 w-full border-b shadow-md backdrop-blur-lg ${
         isDarkMode
           ? 'bg-slate-900 border-slate-700'
           : 'bg-white border-slate-200'
@@ -26,140 +63,56 @@ const Navbar = () => {
       <div className='flex items-center justify-between px-4 py-3 mx-auto max-w-7xl'>
         <div className='flex items-center'>
           <img
-            src={
-              isDarkMode
-                ? '/src/assets/img/ewasteDark.png'
-                : '/src/assets/img/ewasteLight.png'
-            }
+            src={isDarkMode ? ewasteDarkLogo : ewasteLightLogo}
             alt='E-wasteHub Logo'
             className='w-10 h-10 mr-4 rounded-xl'
           />
           <Link
             to='/'
-            className='text-xl font-bold text-green-600 transition-colors hover:text-green-700'
+            className={`text-xl font-bold transition-colors hover:text-green-700 ${
+              isDarkMode ? 'text-green-400' : 'text-green-600'
+            }`}
           >
             EwasteHub
           </Link>
         </div>
 
         <nav
-          className={`hidden lg:flex items-center space-x-8 text-sm font-medium ${
-            isDarkMode ? 'text-slate-100' : 'text-slate-700'
+          className={`items-center hidden space-x-8 text-sm font-medium lg:flex ${
+            isDarkMode ? 'text-white' : 'text-slate-900'
           }`}
         >
-          <Link
-            to='/'
-            className={`relative transition-colors px-2 py-2 ${
-              isActiveLink('/')
-                ? isDarkMode
-                  ? 'text-green-400'
-                  : 'text-green-600'
-                : isDarkMode
-                ? 'hover:text-green-400 hover:bg-green-900/20'
-                : 'hover:text-green-600 hover:bg-green-50'
-            }`}
-          >
-            Beranda
-            {isActiveLink('/') && (
-              <span
-                className={`absolute bottom-0 left-0 right-0 h-0.5 ${
-                  isDarkMode ? 'bg-green-400' : 'bg-green-600'
-                } rounded-full`}
-              ></span>
-            )}
-          </Link>
-          <Link
-            to='/edukasi'
-            className={`relative transition-colors px-2 py-2 ${
-              isActiveLink('/edukasi')
-                ? isDarkMode
-                  ? 'text-green-400'
-                  : 'text-green-600'
-                : isDarkMode
-                ? 'hover:text-green-400 hover:bg-green-900/20'
-                : 'hover:text-green-600 hover:bg-green-50'
-            }`}
-          >
-            Edukasi
-            {isActiveLink('/edukasi') && (
-              <span
-                className={`absolute bottom-0 left-0 right-0 h-0.5 ${
-                  isDarkMode ? 'bg-green-400' : 'bg-green-600'
-                } rounded-full`}
-              ></span>
-            )}
-          </Link>
-          <Link
-            to='/panduan-aplikasi'
-            className={`relative transition-colors px-2 py-2 ${
-              isActiveLink('/panduan-aplikasi')
-                ? isDarkMode
-                  ? 'text-green-400'
-                  : 'text-green-600'
-                : isDarkMode
-                ? 'hover:text-green-400 hover:bg-green-900/20'
-                : 'hover:text-green-600 hover:bg-green-50'
-            }`}
-          >
-            Panduan
-            {isActiveLink('/panduan-aplikasi') && (
-              <span
-                className={`absolute bottom-0 left-0 right-0 h-0.5 ${
-                  isDarkMode ? 'bg-green-400' : 'bg-green-600'
-                } rounded-full`}
-              ></span>
-            )}
-          </Link>
-          <Link
-            to='/faq'
-            className={`relative transition-colors px-2 py-2 ${
-              isActiveLink('/faq')
-                ? isDarkMode
-                  ? 'text-green-400'
-                  : 'text-green-600'
-                : isDarkMode
-                ? 'hover:text-green-400 hover:bg-green-900/20'
-                : 'hover:text-green-600 hover:bg-green-50'
-            }`}
-          >
-            FAQ
-            {isActiveLink('/faq') && (
-              <span
-                className={`absolute bottom-0 left-0 right-0 h-0.5 ${
-                  isDarkMode ? 'bg-green-400' : 'bg-green-600'
-                } rounded-full`}
-              ></span>
-            )}
-          </Link>
+          {navLinks.map((link) => (
+            <NavLink
+              key={link.to}
+              to={link.to}
+              className={getNavLinkClass}
+              end={link.to === '/'}
+            >
+              {({ isActive }) => (
+                <>
+                  {link.text}
+                  {isActive && (
+                    <span
+                      className={`absolute bottom-0 left-0 right-0 h-0.5 rounded-full ${
+                        isDarkMode ? 'bg-green-400' : 'bg-green-600'
+                      }`}
+                    />
+                  )}
+                </>
+              )}
+            </NavLink>
+          ))}
+
           <ThemeSelector />
 
-          {/* Auth Section - Redesigned */}
           <div className='flex items-center gap-3'>
-            <Link
-              to='/login'
-              className={`relative transition-all duration-200 px-4 py-2 rounded-lg font-medium ${
-                isActiveLink('/login')
-                  ? isDarkMode
-                    ? 'text-white bg-green-600 shadow-lg'
-                    : 'text-white bg-green-600 shadow-lg'
-                  : isDarkMode
-                  ? 'text-slate-300 hover:text-white hover:bg-slate-800 border border-slate-700'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-200'
-              }`}
-            >
+            <NavLink to='/login' className={getLoginButtonClass}>
               Masuk
-            </Link>
-
-            <Link
-              to='/register'
-              className={`relative transition-all duration-200 px-4 py-2 rounded-lg font-medium ${
-                isActiveLink('/register')
-                  ? 'text-white bg-green-700 shadow-lg'
-                  : 'text-white bg-green-600 hover:bg-green-700 shadow-md hover:shadow-lg'
-              }`}
-            >
+            </NavLink>
+            <NavLink to='/register' className={getRegisterButtonClass}>
               Daftar
-            </Link>
+            </NavLink>
           </div>
         </nav>
       </div>

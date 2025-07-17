@@ -1,126 +1,97 @@
+import { Sparkles } from 'lucide-react';
 import { motion as Motion } from 'motion/react';
 import { Link } from 'react-router-dom';
-import { benefits } from '../../../data/benefits';
-import useDarkMode from '../../../hooks/useDarkMode';
+
+import useDarkMode from '../../../hooks/useDarkMode'; // 1. Impor hook
+// 2. Impor variabel yang benar
+import { manfaatForSection } from '../../../data/manfaatData';
 import Badge from '../../Elements/Badge';
 import Button from '../../Elements/Button';
 
 const ManfaatSection = () => {
-  const { isDarkMode } = useDarkMode();
+  const { isDarkMode } = useDarkMode(); // 3. Panggil hook
 
   return (
     <section
-      className={`py-16 px-4 md:px-8 transition-colors duration-300 ${
+      className={`px-4 py-16 md:px-8 ${
         isDarkMode ? 'bg-slate-900' : 'bg-white'
       }`}
     >
-      <div className='mx-auto max-w-7xl'>
-        {/* Header */}
+      <div className='max-w-screen-xl mx-auto'>
+        {/* --- Header --- */}
         <div className='mb-12 text-center'>
-          {/* Badge */}
-          <Motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-            className='flex justify-center mb-6'
-          >
-            <Badge
-              variant='soft'
-              color='green'
-              size='md'
-              shape='pill'
-              className='font-medium'
-            >
-              ⭐ Manfaat E-wasteHub
-            </Badge>
-          </Motion.div>
-
+          <Badge variant='soft' color='green' size='md'>
+            <Sparkles className='w-4 h-4 mr-1.5' />
+            Manfaat E-wasteHub
+          </Badge>
           <h2
-            className={`text-3xl md:text-4xl font-bold mb-4 transition-colors duration-300 ${
+            className={`mt-4 mb-4 text-3xl font-bold md:text-4xl ${
               isDarkMode ? 'text-white' : 'text-slate-900'
             }`}
           >
             Mengapa Memilih E-wasteHub?
           </h2>
           <p
-            className={`max-w-2xl mx-auto transition-colors duration-300 ${
+            className={`max-w-2xl mx-auto ${
               isDarkMode ? 'text-slate-300' : 'text-slate-600'
             }`}
           >
             Bergabunglah dengan ribuan pengguna yang telah merasakan manfaat
-            nyata dari pengelolaan e-waste yang bertanggung jawab
+            nyata dari pengelolaan e-waste yang bertanggung jawab.
           </p>
         </div>
 
-        {/* Benefits Grid - Show only 4 benefits */}
+        {/* --- Benefits Grid --- */}
         <div className='grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4'>
-          {benefits && benefits.length > 0 ? (
-            benefits.slice(0, 4).map((benefit, index) => (
+          {/* 4. Gunakan variabel yang benar */}
+          {manfaatForSection.slice(0, 4).map((benefit, index) => {
+            const { Icon } = benefit;
+            return (
               <Motion.div
-                key={benefit.id || index}
+                key={benefit.id}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.08, duration: 0.4 }}
+                transition={{ delay: index * 0.1, duration: 0.5 }}
                 viewport={{ once: true }}
-                className='text-center group'
+                className='p-6 text-center'
               >
-                <div
-                  className={`w-20 h-20 mx-auto mb-6 rounded-2xl flex items-center justify-center text-4xl shadow-lg group-hover:shadow-xl transition-all duration-300 ${
-                    isDarkMode
-                      ? 'bg-gradient-to-br from-slate-700 to-slate-800 text-slate-200'
-                      : 'bg-gradient-to-br from-slate-100 to-slate-200 text-slate-700'
-                  }`}
-                >
-                  {benefit.icon}
-                </div>
+                {Icon && (
+                  <div
+                    className={`flex items-center justify-center w-20 h-20 mx-auto mb-6 rounded-2xl ${
+                      isDarkMode
+                        ? 'bg-slate-800 text-slate-200'
+                        : 'bg-slate-100 text-slate-700'
+                    }`}
+                  >
+                    <Icon className='w-10 h-10' />
+                  </div>
+                )}
                 <h3
-                  className={`text-xl font-semibold mb-3 transition-colors duration-300 ${
+                  className={`mb-2 text-xl font-semibold ${
                     isDarkMode ? 'text-white' : 'text-slate-900'
                   }`}
                 >
                   {benefit.title}
                 </h3>
                 <p
-                  className={`leading-relaxed text-sm transition-colors duration-300 ${
-                    isDarkMode ? 'text-slate-300' : 'text-slate-600'
+                  className={`text-base leading-relaxed ${
+                    isDarkMode ? 'text-slate-400' : 'text-slate-600'
                   }`}
                 >
                   {benefit.description}
                 </p>
               </Motion.div>
-            ))
-          ) : (
-            <div className='py-12 text-center col-span-full'>
-              <p
-                className={`text-lg transition-colors duration-300 ${
-                  isDarkMode ? 'text-slate-300' : 'text-slate-600'
-                }`}
-              >
-                Data manfaat sedang dimuat...
-              </p>
-            </div>
-          )}
+            );
+          })}
         </div>
 
-        {/* Button Lihat Semua - Bottom Right */}
-        {benefits && benefits.length > 3 && (
-          <Motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.5 }}
-            viewport={{ once: true }}
-            className='flex justify-end mt-12'
-          >
+        {/* --- View All Button --- */}
+        {manfaatForSection.length > 3 && (
+          <div className='mt-12 text-end'>
             <Link to='/manfaat'>
-              <Button
-                variant='primary'
-                className='px-6 py-3 text-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105'
-              >
-                Lihat Semua Manfaat
-              </Button>
+              <Button variant='primary'>Lihat Semua Manfaat</Button>
             </Link>
-          </Motion.div>
+          </div>
         )}
       </div>
     </section>
