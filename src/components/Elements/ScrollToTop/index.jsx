@@ -1,29 +1,27 @@
-import { AnimatePresence, motion as Motion } from 'motion/react';
 import { useEffect, useState } from 'react';
-import useDarkMode from '../../../hooks/useDarkMode';
+import { AnimatePresence, motion as Motion } from 'motion/react';
+import { ArrowUp } from 'lucide-react';
+import useDarkMode from '../../../hooks/useDarkMode'; // 1. Impor hook
 
 const ScrollToTop = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const { isDarkMode } = useDarkMode();
+  const { isDarkMode } = useDarkMode(); // 2. Panggil hook
 
-  // Show button when page is scrolled down
-  const toggleVisibility = () => {
-    if (window.pageYOffset > 300) {
-      setIsVisible(true);
-    } else {
-      setIsVisible(false);
-    }
-  };
-
-  // Set the scroll event listener
+  // Logika untuk menampilkan tombol (sudah baik, tidak perlu diubah)
   useEffect(() => {
+    const toggleVisibility = () => {
+      if (window.scrollY > 300) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    };
     window.addEventListener('scroll', toggleVisibility);
     return () => {
       window.removeEventListener('scroll', toggleVisibility);
     };
   }, []);
 
-  // Scroll to top smoothly
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -35,31 +33,21 @@ const ScrollToTop = () => {
     <AnimatePresence>
       {isVisible && (
         <Motion.button
+          // 3. Animasi diubah menjadi fade in/out
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.2, ease: 'easeOut' }}
+          transition={{ duration: 0.3 }}
           onClick={scrollToTop}
-          className={`fixed right-4 z-[60] p-3 rounded-full shadow-md transition-transform duration-150 hover:scale-110 active:scale-95
-            bottom-24 md:bottom-6
-            ${
-              isDarkMode ? 'bg-green-700 text-white' : 'bg-green-600 text-white'
-            }`}
+          // 4. Styling menggunakan isDarkMode
+          className={`
+            fixed bottom-6 right-6 z-50 p-3 rounded-full shadow-lg text-white
+            transition-transform duration-200 hover:scale-110 active:scale-95
+            ${isDarkMode ? 'bg-green-500' : 'bg-green-600'}
+          `}
           aria-label='Scroll to top'
         >
-          <svg
-            className='w-6 h-6'
-            fill='none'
-            stroke='currentColor'
-            viewBox='0 0 24 24'
-            strokeWidth={2.5}
-          >
-            <path
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              d='M5 12l7-7 7 7M12 5v14'
-            />
-          </svg>
+          <ArrowUp className='h-6 w-6' strokeWidth={2.5} />
         </Motion.button>
       )}
     </AnimatePresence>

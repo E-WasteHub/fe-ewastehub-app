@@ -1,9 +1,7 @@
-// src/components/Elements/Card/index.jsx
 import useDarkMode from '../../../hooks/useDarkMode';
 
 const CardHeader = ({ children, className = '' }) => {
   const { isDarkMode } = useDarkMode();
-
   return (
     <div
       className={`p-4 border-b ${
@@ -21,7 +19,6 @@ const CardBody = ({ children, className = '' }) => (
 
 const CardFooter = ({ children, className = '' }) => {
   const { isDarkMode } = useDarkMode();
-
   return (
     <div
       className={`p-4 border-t ${
@@ -37,7 +34,6 @@ const CardFooter = ({ children, className = '' }) => {
 
 const Card = ({ children, className = '' }) => {
   const { isDarkMode } = useDarkMode();
-
   return (
     <div
       className={`rounded-lg shadow-md overflow-hidden ${
@@ -49,6 +45,7 @@ const Card = ({ children, className = '' }) => {
   );
 };
 
+// Komposisi tetap sama
 Card.Header = CardHeader;
 Card.Body = CardBody;
 Card.Footer = CardFooter;

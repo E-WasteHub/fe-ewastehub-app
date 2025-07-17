@@ -1,40 +1,55 @@
-import ewasteDark from '../../assets/img/ewasteDark.png';
-import ewasteLight from '../../assets/img/ewasteLight.png';
+import { Link } from 'react-router-dom';
+import ewasteDarkLogo from '../../assets/img/ewasteDark.png';
+import ewasteLightLogo from '../../assets/img/ewasteLight.png';
 import useDarkMode from '../../hooks/useDarkMode';
-import Button from '../Elements/Button';
+import ThemeSelector from '../Elements/ThemeSelector'; // 1. Impor ThemeSelector
 
-const AuthLayout = ({ children }) => {
-  const { isDarkMode, toggleTheme } = useDarkMode();
-
-  // Tentukan style dan logo sesuai dark mode
-  const bgMain = isDarkMode ? 'bg-gray-100' : 'bg-gray-900';
-  const bgCard = isDarkMode ? 'bg-white' : 'bg-gray-800';
-  const textTitle = isDarkMode ? 'text-gray-800' : 'text-gray-100';
-  const logo = isDarkMode ? ewasteLight : ewasteDark;
+const AuthLayout = ({ children, title, subtitle }) => {
+  const { isDarkMode } = useDarkMode();
 
   return (
     <div
-      className={`min-h-screen flex flex-col items-center justify-center ${bgMain} px-4`}
+      className={`flex min-h-screen flex-col items-center justify-center p-4 transition-colors duration-300 ${
+        isDarkMode ? 'bg-slate-50' : 'bg-slate-900'
+      }`}
     >
-      <div className={`w-full max-w-md ${bgCard} rounded-lg shadow-md p-8`}>
-        {/* Logo atau Judul */}
-        <div className='flex flex-col items-center mb-6'>
-          <img src={logo} alt='E-WasteHub Logo' className='h-16 mb-2' />
-          <h1 className={`text-2xl font-bold ${textTitle}`}>EWasteHub</h1>
-          <Button
-            type='button'
-            onClick={toggleTheme}
-            className={`mt-2 px-3 py-1 text-xs rounded transition
-              ${
-                isDarkMode
-                  ? 'bg-slate-200 text-slate-700 hover:bg-slate-300'
-                  : 'bg-slate-700 text-slate-200 hover:bg-slate-600'
-              }`}
+      {/* 1. Gunakan komponen ThemeSelector yang konsisten */}
+      <div className='absolute top-4 right-4'>
+        <ThemeSelector />
+      </div>
+
+      <div
+        className={`w-full max-w-md rounded-xl p-8 shadow-lg transition-colors duration-300 ${
+          isDarkMode ? 'bg-white' : 'bg-slate-800'
+        }`}
+      >
+        {/* Header Form */}
+        <div className='mb-6 text-center'>
+          {/* 2. Jadikan logo dan judul sebagai link ke homepage */}
+          <Link to='/' className='inline-block' aria-label='Kembali ke Beranda'>
+            <img
+              src={isDarkMode ? ewasteLightLogo : ewasteDarkLogo}
+              alt='E-WasteHub Logo'
+              className='mx-auto h-16 w-16'
+            />
+          </Link>
+          <h1
+            className={`mt-4 text-2xl font-bold ${
+              isDarkMode ? 'text-slate-800' : 'text-slate-100'
+            }`}
           >
-            {isDarkMode ? 'Light Mode' : 'Dark Mode'}
-          </Button>
+            {title}
+          </h1>
+          <p
+            className={`mt-1 text-sm ${
+              isDarkMode ? 'text-slate-500' : 'text-slate-400'
+            }`}
+          >
+            {subtitle}
+          </p>
         </div>
-        {/* Konten Form (Login/Register) */}
+
+        {/* Konten Form (children) */}
         {children}
       </div>
     </div>

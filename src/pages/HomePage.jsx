@@ -1,4 +1,3 @@
-// pages/HomePage.jsx
 import FAQSection from '../components/Fragments/Section/FAQSection';
 import HeroSection from '../components/Fragments/Section/HeroSection';
 import KategoriSection from '../components/Fragments/Section/KategoriSection';
@@ -11,19 +10,10 @@ const HomePage = () => {
 
   return (
     <MainLayout>
-      {/* Hero Section */}
       <HeroSection />
-
-      {/* E-waste Categories Section */}
       <KategoriSection />
-
-      {/* Benefits Section */}
       <ManfaatSection />
-
-      {/* FAQ Section */}
-      <div id='faq'>
-        <FAQSection />
-      </div>
+      <FAQSection id='faq' />
     </MainLayout>
   );
 };
