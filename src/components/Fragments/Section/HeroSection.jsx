@@ -67,7 +67,7 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.6 }}
-            className={`max-w-xl mx-auto mt-6 text-lg leading-relaxed md:mx-0 ${
+            className={`max-w-xl mx-auto mt-4 text-lg leading-relaxed md:mx-0 ${
               isDarkMode ? 'text-slate-300' : 'text-slate-600'
             }`}
           >

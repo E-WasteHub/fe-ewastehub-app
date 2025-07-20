@@ -3,14 +3,17 @@ import Input from './Input';
 import Label from './Label';
 
 const InputForm = forwardRef((props, ref) => {
-  // Destructuring props yang dibutuhkan
-  const { label, name, type, placeholder } = props;
+  // 1. Destructure props yang dibutuhkan, sisanya simpan di `rest`
+  const { label, name, ...rest } = props;
 
   return (
-    // Gunakan margin yang lebih konsisten jika diperlukan
-    <div className='mb-4 w-full'>
+    <div className='w-full'>
+      {/* Label tetap menggunakan `name` sebagai `htmlFor` */}
       <Label htmlFor={name}>{label}</Label>
-      <Input name={name} type={type} placeholder={placeholder} ref={ref} />
+
+      {/* 2. Teruskan `name` dan semua sisa props (`...rest`) ke komponen Input */}
+      {/* Ini akan otomatis menyertakan value, onChange, type, placeholder, disabled, dll. */}
+      <Input name={name} {...rest} ref={ref} />
     </div>
   );
 });

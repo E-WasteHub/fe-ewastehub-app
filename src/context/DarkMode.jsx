@@ -27,37 +27,29 @@ const DarkModeProvider = ({ children }) => {
       theme === 'dark' || (theme === 'system' && isSystemDark);
 
     setIsDarkMode(shouldBeDark);
-    if (shouldBeDark) {
-      root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
-    }
+    root.classList.toggle('dark', shouldBeDark); // Menggunakan toggle lebih ringkas
     localStorage.setItem('theme', theme);
   }, [theme]);
 
-  // DIUBAH: Listener sekarang bergantung pada 'theme'
+  // Listener untuk perubahan tema sistem
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
+    // Fungsi ini dipanggil hanya ketika pengguna mengubah pengaturan OS
     const handleChange = () => {
-      // Sekarang kita bisa langsung memeriksa state 'theme' yang terbaru
+      // Jika tema saat ini adalah 'system', kita perlu memicu pembaruan
+      // dengan "mengatur ulang" tema ke 'system' agar useEffect utama berjalan lagi.
       if (theme === 'system') {
-        // Memicu useEffect utama untuk mengevaluasi ulang tema sistem
-        // Trik ini sudah tidak diperlukan, kita bisa langsung set isDarkMode
-        const newIsSystemDark = mediaQuery.matches;
-        const root = document.documentElement;
-        setIsDarkMode(newIsSystemDark);
-        if (newIsSystemDark) {
-          root.classList.add('dark');
-        } else {
-          root.classList.remove('dark');
-        }
+        // Ini akan memicu useEffect di atas untuk mengevaluasi ulang.
+        setTheme('system');
       }
     };
 
     mediaQuery.addEventListener('change', handleChange);
     return () => mediaQuery.removeEventListener('change', handleChange);
-  }, [theme]); // <-- DEPENDENSI DIPERBAIKI
+    // Dependensi bisa dibuat hanya pada 'theme' untuk memastikan listener
+    // hanya aktif ketika relevan.
+  }, [theme]);
 
   const contextValue = useMemo(
     () => ({

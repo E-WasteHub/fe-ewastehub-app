@@ -5,6 +5,8 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import DarkModeProvider from './context/DarkMode';
 import './index.css';
+import RouteScrollManager from './utils/RouteScrollManager';
+import ScrollToTopButton from './utils/ScrollToTopButton';
 
 // Register Service Worker using VitePWA
 if ('serviceWorker' in navigator && import.meta.env.PROD) {
@@ -34,6 +36,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
       <DarkModeProvider>
+        <RouteScrollManager />
+        <ScrollToTopButton />
         <App />
       </DarkModeProvider>
     </BrowserRouter>

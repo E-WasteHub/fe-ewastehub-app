@@ -8,8 +8,8 @@ const getButtonVariants = (isDarkMode) => ({
     ? 'bg-transparent border border-slate-600 text-slate-200 hover:bg-slate-800'
     : 'bg-transparent border border-slate-300 text-slate-700 hover:bg-slate-100',
   default: isDarkMode
-    ? 'bg-slate-700 text-white hover:bg-slate-600'
-    : 'bg-black text-white hover:bg-slate-800',
+    ? 'bg-slate-500 text-slate-100 hover:bg-slate-600'
+    : 'bg-slate-700 text-white hover:bg-slate-800',
 });
 
 const Button = ({

@@ -9,13 +9,35 @@ import { educationTopics } from '../data/edukasiData';
 import useDarkMode from '../hooks/useDarkMode';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 
+// 1. Definisikan variants untuk animasi
+const gridContainerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1, // Jeda animasi untuk setiap item
+    },
+  },
+};
+
+const gridItemVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.5,
+    },
+  },
+};
+
 const EdukasiPage = () => {
   useDocumentTitle('Edukasi | E-wasteHub');
   const { isDarkMode } = useDarkMode();
 
   return (
     <MainLayout>
-      {/* --- Hero Section --- */}
+      {/* --- Hero Section (Tidak ada perubahan) --- */}
       <section
         className={`px-4 py-20 text-center md:px-8 ${
           isDarkMode ? 'bg-slate-900' : 'bg-white'
@@ -51,17 +73,20 @@ const EdukasiPage = () => {
         }`}
       >
         <div className='max-w-5xl mx-auto'>
-          {/* TODO: Ganti dengan data dari API jika sudah tersedia */}
-          <div className='grid grid-cols-1 gap-8 md:grid-cols-2'>
-            {educationTopics.map((topic, index) => {
-              const { Icon } = topic; // Destructure the Icon component
+          {/* 2. Terapkan variant ke grid container */}
+          <Motion.div
+            className='grid grid-cols-1 gap-8 md:grid-cols-2'
+            variants={gridContainerVariants}
+            initial='hidden'
+            animate='visible'
+          >
+            {educationTopics.map((topic) => {
+              const { Icon } = topic;
               return (
+                // 3. Terapkan variant ke setiap item
                 <Motion.div
                   key={topic.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1, duration: 0.5 }}
-                  viewport={{ once: true }}
+                  variants={gridItemVariants}
                   className='h-full'
                 >
                   <Link to={`/edukasi/${topic.id}`} className='h-full'>
@@ -114,7 +139,7 @@ const EdukasiPage = () => {
                 </Motion.div>
               );
             })}
-          </div>
+          </Motion.div>
 
           {/* --- Coming Soon Notice --- */}
           <div className='mt-16 text-center'>

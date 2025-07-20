@@ -4,11 +4,34 @@ import { motion as Motion } from 'motion/react';
 import Badge from '../components/Elements/Badge';
 import Card from '../components/Elements/Card';
 import MainLayout from '../components/Layouts/MainLayout';
-import useDocumentTitle from '../hooks/useDocumentTitle';
-// DIUBAH: Impor dari file dan variabel baru
 import { kategoriData } from '../data/kategoriData';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 
 import useDarkMode from '../hooks/useDarkMode';
+
+// 1. Definisikan "variants" untuk animasi di luar komponen
+// Variant untuk kontainer/grid yang akan mengatur staggering (animasi berurutan)
+const gridContainerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1, // Setiap anak akan dianimasikan dengan jeda 0.1 detik
+    },
+  },
+};
+
+// Variant untuk setiap item/kartu di dalam grid
+const gridItemVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.5,
+    },
+  },
+};
 
 const KategoriPage = () => {
   useDocumentTitle('Kategori | E-wasteHub');
@@ -16,7 +39,7 @@ const KategoriPage = () => {
 
   return (
     <MainLayout>
-      {/* --- Hero Section --- */}
+      {/* --- Hero Section (Tidak ada perubahan) --- */}
       <section
         className={`px-4 py-20 text-center md:px-8 ${
           isDarkMode ? 'bg-slate-900' : 'bg-slate-50'
@@ -70,17 +93,20 @@ const KategoriPage = () => {
             </p>
           </div>
 
-          <div className='grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3'>
-            {/* DIUBAH: Menggunakan kategoriData */}
-            {kategoriData.map((category, index) => {
+          {/* 2. Terapkan variant ke grid container */}
+          <Motion.div
+            className='grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3'
+            variants={gridContainerVariants}
+            initial='hidden'
+            animate='visible' // Gunakan 'animate' untuk memicu saat render, bukan 'whileInView'
+          >
+            {kategoriData.map((category) => {
               const { Icon } = category;
               return (
+                // 3. Terapkan variant ke setiap item grid. Props menjadi lebih simpel.
                 <Motion.div
                   key={category.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1, duration: 0.5 }}
-                  viewport={{ once: true }}
+                  variants={gridItemVariants}
                   className='h-full'
                 >
                   <Card className='flex flex-col h-full transition-all duration-300 border border-transparent group hover:border-green-500 hover:shadow-lg'>
@@ -136,7 +162,7 @@ const KategoriPage = () => {
                 </Motion.div>
               );
             })}
-          </div>
+          </Motion.div>
         </div>
       </section>
     </MainLayout>
