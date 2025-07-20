@@ -2,12 +2,10 @@ import { Layers } from 'lucide-react';
 import { motion as Motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { kategoriData } from '../../../data/kategoriData';
-import useDarkMode from '../../../hooks/useDarkMode'; // 1. Import the hook
-import Badge from '../../Elements/Badge';
-import Button from '../../Elements/Button';
+import useDarkMode from '../../../hooks/useDarkMode';
 
 const KategoriSection = () => {
-  const { isDarkMode } = useDarkMode(); // 2. Get the theme state
+  const { isDarkMode } = useDarkMode();
 
   return (
     <section
@@ -16,14 +14,26 @@ const KategoriSection = () => {
       }`}
     >
       <div className='max-w-screen-xl mx-auto'>
-        {/* --- Header --- */}
-        <div className='mb-12 text-center'>
-          <Badge variant='soft' color='green' size='md'>
+        {/* Header */}
+        <Motion.div
+          className='mb-12 text-center'
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
+          <div
+            className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium mb-4 ${
+              isDarkMode
+                ? 'bg-green-900/50 text-green-400'
+                : 'bg-green-100 text-green-600'
+            }`}
+          >
             <Layers className='mr-1.5 h-4 w-4' />
-            Kategori E-Waste
-          </Badge>
+            Kategori Sampah Elektronik
+          </div>
           <h2
-            className={`mt-4 mb-4 text-3xl font-bold md:text-4xl ${
+            className={`mb-4 text-3xl font-bold md:text-4xl ${
               isDarkMode ? 'text-white' : 'text-slate-900'
             }`}
           >
@@ -37,28 +47,24 @@ const KategoriSection = () => {
             Serahkan berbagai jenis sampah elektronik Anda untuk didaur ulang
             secara bertanggung jawab.
           </p>
-        </div>
+        </Motion.div>
 
-        {/* --- Categories Grid --- */}
+        {/* Categories Grid */}
         <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4'>
           {kategoriData.slice(0, 4).map((category, index) => {
             const { Icon } = category;
             return (
               <Motion.div
                 key={category.id || index}
+                className={`p-6 text-center border rounded-xl hover:border-green-500 hover:shadow-lg transition-all duration-300 ${
+                  isDarkMode
+                    ? 'bg-slate-800 border-slate-700'
+                    : 'bg-white border-slate-200'
+                }`}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1, duration: 0.5 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className={`
-                  p-6 text-center transition-all duration-300 border rounded-xl group
-                  hover:border-green-500 hover:shadow-lg
-                  ${
-                    isDarkMode
-                      ? 'bg-slate-800 border-slate-700'
-                      : 'bg-white border-slate-200'
-                  }
-                `}
               >
                 {Icon && (
                   <div
@@ -101,19 +107,27 @@ const KategoriSection = () => {
                   </p>
                   <div className='flex flex-wrap justify-center gap-1'>
                     {category.items?.slice(0, 2).map((item, itemIndex) => (
-                      <Badge
+                      <span
                         key={itemIndex}
-                        variant='soft'
-                        color='gray'
-                        size='sm'
+                        className={`px-2 py-1 text-xs rounded-full ${
+                          isDarkMode
+                            ? 'bg-slate-700 text-slate-300'
+                            : 'bg-gray-100 text-gray-600'
+                        }`}
                       >
                         {item}
-                      </Badge>
+                      </span>
                     ))}
                     {category.items?.length > 2 && (
-                      <Badge variant='soft' color='gray' size='sm'>
+                      <span
+                        className={`px-2 py-1 text-xs rounded-full ${
+                          isDarkMode
+                            ? 'bg-slate-700 text-slate-300'
+                            : 'bg-gray-100 text-gray-600'
+                        }`}
+                      >
                         +{category.items.length - 2} lainnya
-                      </Badge>
+                      </span>
                     )}
                   </div>
                 </div>
@@ -122,11 +136,14 @@ const KategoriSection = () => {
           })}
         </div>
 
-        {/* --- View All Button --- */}
+        {/* View All Button */}
         {kategoriData.length > 4 && (
           <div className='mt-12 text-end'>
-            <Link to='/kategori'>
-              <Button variant='primary'>Lihat Semua Kategori</Button>
+            <Link
+              to='/kategori'
+              className='inline-block px-6 py-3 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors'
+            >
+              Lihat Semua Kategori
             </Link>
           </div>
         )}

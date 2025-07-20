@@ -1,52 +1,33 @@
-import { Eye, EyeOff } from 'lucide-react';
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import useDarkMode from '../../../hooks/useDarkMode';
+import useRegister from '../../../hooks/useRegister';
 import Alert from '../../Elements/Alert';
-import Button from '../../Elements/Button';
+import InputForm, {
+  Checkbox,
+  PasswordToggle,
+} from '../../Elements/FormElements';
 import GoogleIcon from '../../Elements/Icon/GoogleIcon';
-import InputForm from '../../Elements/Input';
 
 const FormRegister = () => {
   const { isDarkMode } = useDarkMode();
-  const [formData, setFormData] = useState({
-    namaLengkap: '',
-    email: '',
-    password: '',
-    konfirmasiPassword: '',
-  });
-  const [setujuSyarat, setSetujuSyarat] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [showPassword, setShowPassword] = useState(false);
-  const [showKonfirmasiPassword, setShowKonfirmasiPassword] = useState(false);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setError(null);
-
-    if (formData.password !== formData.konfirmasiPassword) {
-      setError('Password dan konfirmasi password tidak cocok.');
-      return;
-    }
-    if (!setujuSyarat) {
-      setError('Anda harus menyetujui Syarat & Ketentuan untuk mendaftar.');
-      return;
-    }
-    // TODO: Tambahkan logika registrasi Anda di sini
-  };
+  const {
+    formData,
+    isLoading,
+    error,
+    showPassword,
+    showKonfirmasiPassword,
+    updateField,
+    togglePassword,
+    toggleKonfirmasiPassword,
+    handleSubmit,
+  } = useRegister();
 
   return (
     <div className='w-full'>
       {/* Form Pendaftaran Utama */}
-      <form onSubmit={handleSubmit} className='space-y-6'>
-        {error && <Alert type='error' title='Error' message={error} />}
+      <form onSubmit={handleSubmit} className='space-y-4 sm:space-y-6'>
+        {error && <Alert type='error' message={error} />}
 
         <InputForm
           label='Nama Lengkap'
@@ -54,9 +35,10 @@ const FormRegister = () => {
           type='text'
           placeholder='Masukkan nama lengkap Anda'
           value={formData.namaLengkap}
-          onChange={handleChange}
+          onChange={(e) => updateField('namaLengkap', e.target.value)}
           disabled={isLoading}
           autoComplete='name'
+          required
         />
 
         <InputForm
@@ -65,9 +47,10 @@ const FormRegister = () => {
           type='email'
           placeholder='contoh@email.com'
           value={formData.email}
-          onChange={handleChange}
+          onChange={(e) => updateField('email', e.target.value)}
           disabled={isLoading}
           autoComplete='email'
+          required
         />
 
         <div className='relative'>
@@ -77,20 +60,18 @@ const FormRegister = () => {
             type={showPassword ? 'text' : 'password'}
             placeholder='Masukkan password'
             value={formData.password}
-            onChange={handleChange}
+            onChange={(e) => updateField('password', e.target.value)}
             disabled={isLoading}
             autoComplete='new-password'
+            required
           />
-          <button
-            type='button'
-            className={`absolute top-9 right-4 ${
-              isDarkMode ? 'text-slate-400' : 'text-slate-500'
-            }`}
-            onClick={() => setShowPassword(!showPassword)}
-            aria-label='Toggle password visibility'
-          >
-            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-          </button>
+          <div className='absolute inset-y-0 right-3 flex items-center top-[2.125rem] sm:top-[2.375rem] lg:top-[2.125rem]'>
+            <PasswordToggle
+              showPassword={showPassword}
+              onToggle={togglePassword}
+              disabled={isLoading}
+            />
+          </div>
         </div>
 
         <div className='relative'>
@@ -100,71 +81,73 @@ const FormRegister = () => {
             type={showKonfirmasiPassword ? 'text' : 'password'}
             placeholder='Ulangi password'
             value={formData.konfirmasiPassword}
-            onChange={handleChange}
+            onChange={(e) => updateField('konfirmasiPassword', e.target.value)}
             disabled={isLoading}
             autoComplete='new-password'
+            required
           />
-          <button
-            type='button'
-            className={`absolute top-9 right-4 ${
-              isDarkMode ? 'text-slate-400' : 'text-slate-500'
-            }`}
-            onClick={() => setShowKonfirmasiPassword(!showKonfirmasiPassword)}
-            aria-label='Toggle password confirmation visibility'
-          >
-            {showKonfirmasiPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-          </button>
-        </div>
-
-        <div className='flex items-center justify-between'>
-          <label className='flex items-center text-sm select-none'>
-            <input
-              type='checkbox'
-              className={`h-4 w-4 rounded-md  focus:ring-green-500 focus:ring-offset-0 ${
-                isDarkMode
-                  ? 'border-slate-600 bg-slate-700 checked:bg-green-500'
-                  : 'border-slate-300 bg-slate-100 text-white checked:bg-green-600'
-              }`}
+          <div className='absolute inset-y-0 right-3 flex items-center top-[2.125rem] sm:top-[2.375rem] lg:top-[2.125rem]'>
+            <PasswordToggle
+              showPassword={showKonfirmasiPassword}
+              onToggle={toggleKonfirmasiPassword}
+              disabled={isLoading}
             />
-            <span
-              className={`ml-2 ${isDarkMode ? 'text-slate-900' : 'text-white'}`}
-            >
-              Dengan membuat akun berarti Anda menyetujui Syarat dan Ketentuan,
-              dan Kebijakan Privasi kami
-            </span>
-          </label>
+          </div>
         </div>
 
-        <Button
-          variant='primary'
+        <div className='flex items-start'>
+          <Checkbox
+            id='agree-terms'
+            name='agreeToTerms'
+            label='Dengan membuat akun berarti Anda menyetujui Syarat dan Ketentuan, dan Kebijakan Privasi kami'
+            checked={formData.setujuSyarat}
+            onChange={(e) => updateField('setujuSyarat', e.target.checked)}
+            disabled={isLoading}
+          />
+        </div>
+
+        <button
           type='submit'
-          className='w-full'
+          className={`w-full inline-flex items-center justify-center px-4 py-3 rounded-xl font-semibold text-sm sm:text-base min-h-[44px] sm:min-h-[48px] transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:cursor-not-allowed ${
+            isDarkMode
+              ? 'bg-green-500 text-white border-2 border-green-500 hover:bg-green-400 focus:ring-green-900/40 focus:ring-offset-slate-800 disabled:bg-green-400 disabled:opacity-75'
+              : 'bg-green-600 text-white border-2 border-green-600 hover:bg-green-700 focus:ring-green-200/60 focus:ring-offset-white disabled:bg-green-400 disabled:opacity-75'
+          }`}
           disabled={isLoading}
         >
-          {isLoading ? 'Memproses...' : 'Buat Akun'}
-        </Button>
+          {isLoading ? (
+            <div className='flex items-center gap-2'>
+              <div className='w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin'></div>
+              <span>Memproses...</span>
+            </div>
+          ) : (
+            'Buat Akun'
+          )}
+        </button>
       </form>
 
-      <div className='relative flex items-center my-3'>
-        <div className='flex-grow border-t border-slate-400 '></div>
-        <span className='mx-4 flex-shrink text-sm text-slate-900 '>ATAU</span>
-        <div className='flex-grow border-t border-slate-400'></div>
+      <div className='flex items-center my-6'>
+        <div className='flex-1 border-t border-gray-300'></div>
+        <span className='px-4 text-sm text-gray-500'>ATAU</span>
+        <div className='flex-1 border-t border-gray-300'></div>
       </div>
 
-      <Button
-        variant='default'
+      <button
         type='button'
-        className='w-full'
+        className={`w-full inline-flex items-center justify-center px-4 py-3 rounded-xl font-semibold text-sm sm:text-base min-h-[44px] sm:min-h-[48px] transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:cursor-not-allowed ${
+          isDarkMode
+            ? 'bg-slate-800 text-slate-200 border-2 border-slate-600 hover:bg-slate-700 focus:ring-slate-700/60 focus:ring-offset-slate-800 disabled:opacity-50'
+            : 'bg-white text-slate-700 border-2 border-slate-300 hover:bg-slate-50 focus:ring-slate-200/60 focus:ring-offset-white disabled:opacity-50'
+        }`}
         disabled={isLoading}
       >
         <GoogleIcon className='mr-2' />
         Daftar dengan Google
-      </Button>
+      </button>
 
-      {/* Link ke Halaman Login */}
       <p
         className={`mt-6 text-sm text-center ${
-          isDarkMode ? 'text-slate-700' : 'text-slate-400'
+          isDarkMode ? 'text-slate-300' : 'text-slate-600'
         }`}
       >
         Sudah punya akun?{' '}

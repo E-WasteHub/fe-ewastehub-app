@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { faqData } from '../../../data/faqData';
 import useDarkMode from '../../../hooks/useDarkMode';
 import Accordion from '../../Elements/Accordion';
-import Button from '../../Elements/Button';
 
 const FAQSection = ({ id = '' }) => {
   const { isDarkMode } = useDarkMode();
@@ -16,8 +15,14 @@ const FAQSection = ({ id = '' }) => {
       }`}
     >
       <div className='max-w-4xl mx-auto'>
-        {/* --- Header --- */}
-        <div className='mb-12 text-center'>
+        {/* Header */}
+        <Motion.div
+          className='mb-12 text-center'
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
           <h2
             className={`mb-4 text-3xl font-bold md:text-4xl ${
               isDarkMode ? 'text-white' : 'text-slate-900'
@@ -33,20 +38,19 @@ const FAQSection = ({ id = '' }) => {
             Temukan jawaban untuk pertanyaan umum seputar layanan E-wasteHub dan
             pengelolaan sampah elektronik.
           </p>
-        </div>
+        </Motion.div>
 
-        {/* --- FAQ List --- */}
+        {/* FAQ List */}
         <div className='space-y-4'>
           {faqData && faqData.length > 0 ? (
             faqData.slice(0, 5).map((faq, index) => (
               <Motion.div
                 key={faq.id || index}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1, duration: 0.5 }}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
                 viewport={{ once: true }}
               >
-                {/* Accordion akan menangani dark mode-nya sendiri */}
                 <Accordion title={faq.question}>
                   <p>{faq.answer}</p>
                 </Accordion>
@@ -65,12 +69,14 @@ const FAQSection = ({ id = '' }) => {
           )}
         </div>
 
-        {/* --- Tombol "Lihat Semua" --- */}
+        {/* View All Button */}
         {faqData.length > 5 && (
-          <div className='mt-8 text-center'>
-            <Link to='/faq'>
-              {/* Button akan menangani dark mode-nya sendiri */}
-              <Button variant='primary'>Lihat Semua FAQ</Button>
+          <div className='mt-8 text-end'>
+            <Link
+              to='/faq'
+              className='inline-block px-6 py-3 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors'
+            >
+              Lihat Semua FAQ
             </Link>
           </div>
         )}
