@@ -7,7 +7,7 @@ const App = () => {
 
   return (
     <div
-      className={`min-h-screen transition-colors duration-300 ${
+      className={`min-h-screen transition-colors duration-300 overflow-x-hidden ${
         isDarkMode ? 'bg-slate-900 text-white' : 'bg-white text-slate-900'
       }`}
     >

@@ -46,7 +46,7 @@ const EdukasiPage = () => {
         <div className='max-w-4xl mx-auto'>
           <Badge variant='soft' color='green' size='lg' className='mb-6'>
             <BookOpen className='w-5 h-5 mr-2' />
-            Pusat Edukasi E-Waste
+            Pusat Edukasi EwasteHub
           </Badge>
           <h1
             className={`text-4xl font-bold md:text-5xl ${

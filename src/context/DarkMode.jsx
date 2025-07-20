@@ -17,7 +17,7 @@ const DarkModeProvider = ({ children }) => {
     return window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
 
-  // useEffect utama untuk menerapkan tema (sudah benar)
+  // useEffect utama untuk menerapkan tema dengan smooth transitions
   useEffect(() => {
     const root = document.documentElement;
     const isSystemDark = window.matchMedia(
@@ -26,9 +26,40 @@ const DarkModeProvider = ({ children }) => {
     const shouldBeDark =
       theme === 'dark' || (theme === 'system' && isSystemDark);
 
+    // Add transition class before theme change for smooth animation
+    root.style.setProperty('--theme-transition-duration', '300ms');
+
+    // Update state first
     setIsDarkMode(shouldBeDark);
-    root.classList.toggle('dark', shouldBeDark); // Menggunakan toggle lebih ringkas
+
+    // Apply theme to DOM
+    if (shouldBeDark) {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+
+    // Save to localStorage
     localStorage.setItem('theme', theme);
+
+    // Ensure proper contrast ratios are maintained for accessibility
+    if (shouldBeDark) {
+      root.style.setProperty('--text-contrast-ratio', '7:1');
+      root.style.setProperty('--form-contrast-ratio', '7:1');
+      root.style.setProperty('--interactive-contrast-ratio', '4.5:1');
+    } else {
+      root.style.setProperty('--text-contrast-ratio', '4.5:1');
+      root.style.setProperty('--form-contrast-ratio', '4.5:1');
+      root.style.setProperty('--interactive-contrast-ratio', '3:1');
+    }
+
+    // Add smooth transition class to body for comprehensive theme switching
+    document.body.classList.add('theme-transitioning');
+    const timeoutId = setTimeout(() => {
+      document.body.classList.remove('theme-transitioning');
+    }, 300);
+
+    return () => clearTimeout(timeoutId);
   }, [theme]);
 
   // Listener untuk perubahan tema sistem

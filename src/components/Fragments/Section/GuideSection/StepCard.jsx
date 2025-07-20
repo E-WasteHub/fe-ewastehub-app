@@ -1,5 +1,4 @@
 import { ChevronDown, Lightbulb } from 'lucide-react';
-import { AnimatePresence, motion as Motion } from 'motion/react';
 import useDarkMode from '../../../../hooks/useDarkMode';
 
 const StepCard = ({ step, isActive, onClick }) => {
@@ -7,29 +6,26 @@ const StepCard = ({ step, isActive, onClick }) => {
 
   return (
     <div
-      className={`
-        ml-16 cursor-pointer rounded-2xl p-6 transition-all duration-300
-        ${
-          isActive
-            ? `border-2 border-green-500 shadow-lg ${
-                isDarkMode ? 'bg-slate-800' : 'bg-white'
-              }`
-            : `border hover:bg-white ${
-                isDarkMode
-                  ? 'border-slate-700 bg-slate-800/50 hover:bg-slate-800'
-                  : 'border-gray-200 bg-white/80'
-              }`
-        }
-      `}
+      className={`ml-16 cursor-pointer rounded-2xl p-6 transition-all duration-300 ${
+        isActive
+          ? `border-2 border-green-500 shadow-lg ${
+              isDarkMode ? 'bg-slate-800' : 'bg-white'
+            }`
+          : `border ${
+              isDarkMode
+                ? 'border-slate-700 bg-slate-800/50 hover:bg-slate-800'
+                : 'border-gray-200 bg-white/80 hover:bg-white'
+            }`
+      }`}
       onClick={onClick}
     >
-      {/* --- Main Info --- */}
+      {/* Main Info */}
       <div className='flex items-start gap-6'>
         <div className='flex-shrink-0'>
-          <div className='relative flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-r from-green-500 to-green-600 text-lg font-bold text-white shadow-lg'>
+          <div className='relative flex h-16 w-16 items-center justify-center rounded-2xl bg-green-600 text-lg font-bold text-white'>
             {step.number}
             <div
-              className={`absolute -right-2 -bottom-2 rounded-full p-1 shadow-md ${
+              className={`absolute -right-2 -bottom-2 rounded-full p-1 ${
                 isDarkMode ? 'bg-slate-700' : 'bg-white'
               }`}
             >
@@ -68,69 +64,61 @@ const StepCard = ({ step, isActive, onClick }) => {
         </div>
       </div>
 
-      {/* --- Expanded Content --- */}
-      <AnimatePresence>
-        {isActive && (
-          <Motion.div
-            initial={{ height: 0, opacity: 0, marginTop: 0 }}
-            animate={{ height: 'auto', opacity: 1, marginTop: '1.5rem' }}
-            exit={{ height: 0, opacity: 0, marginTop: 0 }}
-            transition={{ duration: 0.4, ease: 'easeInOut' }}
-            className='overflow-hidden'
+      {/* Expanded Content */}
+      {isActive && (
+        <div className='mt-6'>
+          <div
+            className={`space-y-3 pt-4 border-t ${
+              isDarkMode ? 'border-slate-700' : 'border-slate-200'
+            }`}
           >
-            <div
-              className={`space-y-3 pt-4 border-t ${
-                isDarkMode ? 'border-slate-700' : 'border-slate-200'
-              }`}
-            >
-              {step.steps.map((stepItem, index) => (
-                <div key={index} className='flex items-start gap-3'>
-                  <div className='mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-green-600 text-xs font-medium text-white'>
-                    {index + 1}
-                  </div>
-                  <p
-                    className={`text-base ${
-                      isDarkMode ? 'text-slate-300' : 'text-slate-700'
-                    }`}
-                  >
-                    {stepItem}
-                  </p>
+            {step.steps.map((stepItem, index) => (
+              <div key={index} className='flex items-start gap-3'>
+                <div className='mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-green-600 text-xs font-medium text-white'>
+                  {index + 1}
                 </div>
-              ))}
-            </div>
-            <div
-              className={`mt-4 flex items-start gap-3 rounded-xl border-l-4 p-4 ${
-                isDarkMode
-                  ? 'bg-green-900/20 border-green-500'
-                  : 'bg-green-50 border-green-500'
-              }`}
-            >
-              <Lightbulb
-                size={20}
-                className={`mt-0.5 flex-shrink-0 ${
-                  isDarkMode ? 'text-green-300' : 'text-green-600'
-                }`}
-              />
-              <div>
-                <span
-                  className={`font-semibold ${
-                    isDarkMode ? 'text-green-300' : 'text-green-800'
+                <p
+                  className={`text-base ${
+                    isDarkMode ? 'text-slate-300' : 'text-slate-700'
                   }`}
                 >
-                  Tips:{' '}
-                </span>
-                <span
-                  className={`${
-                    isDarkMode ? 'text-green-400' : 'text-green-700'
-                  }`}
-                >
-                  {step.tips}
-                </span>
+                  {stepItem}
+                </p>
               </div>
+            ))}
+          </div>
+          <div
+            className={`mt-4 flex items-start gap-3 rounded-xl border-l-4 p-4 ${
+              isDarkMode
+                ? 'bg-green-900/20 border-green-500'
+                : 'bg-green-50 border-green-500'
+            }`}
+          >
+            <Lightbulb
+              size={20}
+              className={`mt-0.5 flex-shrink-0 ${
+                isDarkMode ? 'text-green-300' : 'text-green-600'
+              }`}
+            />
+            <div>
+              <span
+                className={`font-semibold ${
+                  isDarkMode ? 'text-green-300' : 'text-green-800'
+                }`}
+              >
+                Tips:{' '}
+              </span>
+              <span
+                className={`${
+                  isDarkMode ? 'text-green-400' : 'text-green-700'
+                }`}
+              >
+                {step.tips}
+              </span>
             </div>
-          </Motion.div>
-        )}
-      </AnimatePresence>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

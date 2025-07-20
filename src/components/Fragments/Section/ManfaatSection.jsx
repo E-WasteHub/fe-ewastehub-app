@@ -1,16 +1,11 @@
 import { Sparkles } from 'lucide-react';
 import { motion as Motion } from 'motion/react';
 import { Link } from 'react-router-dom';
-
-import useDarkMode from '../../../hooks/useDarkMode'; // 1. Impor hook
-// 2. Impor variabel yang benar
 import { manfaatForSection } from '../../../data/manfaatData';
-import Badge from '../../Elements/Badge';
-import Button from '../../Elements/Button';
+import useDarkMode from '../../../hooks/useDarkMode';
 
 const ManfaatSection = () => {
-  const { isDarkMode } = useDarkMode(); // 3. Panggil hook
-
+  const { isDarkMode } = useDarkMode();
   return (
     <section
       className={`px-4 py-16 md:px-8 ${
@@ -18,12 +13,24 @@ const ManfaatSection = () => {
       }`}
     >
       <div className='max-w-screen-xl mx-auto'>
-        {/* --- Header --- */}
-        <div className='mb-12 text-center'>
-          <Badge variant='soft' color='green' size='md'>
+        {/* Header */}
+        <Motion.div
+          className='mb-12 text-center'
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
+          <div
+            className={`inline-flex items-center px-3 py-1 mb-4 text-sm font-medium ${
+              isDarkMode
+                ? 'text-green-300 bg-green-900/30'
+                : 'text-green-700 bg-green-100'
+            } rounded-full `}
+          >
             <Sparkles className='w-4 h-4 mr-1.5' />
             Manfaat E-wasteHub
-          </Badge>
+          </div>
           <h2
             className={`mt-4 mb-4 text-3xl font-bold md:text-4xl ${
               isDarkMode ? 'text-white' : 'text-slate-900'
@@ -39,28 +46,27 @@ const ManfaatSection = () => {
             Bergabunglah dengan ribuan pengguna yang telah merasakan manfaat
             nyata dari pengelolaan e-waste yang bertanggung jawab.
           </p>
-        </div>
+        </Motion.div>
 
-        {/* --- Benefits Grid --- */}
+        {/* Benefits Grid */}
         <div className='grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4'>
-          {/* 4. Gunakan variabel yang benar */}
           {manfaatForSection.slice(0, 4).map((benefit, index) => {
             const { Icon } = benefit;
             return (
               <Motion.div
                 key={benefit.id}
+                className='p-6 text-center'
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1, duration: 0.5 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className='p-6 text-center'
               >
                 {Icon && (
                   <div
                     className={`flex items-center justify-center w-20 h-20 mx-auto mb-6 rounded-2xl ${
                       isDarkMode
                         ? 'bg-slate-800 text-slate-200'
-                        : 'bg-slate-100 text-slate-700'
+                        : 'text-slate-700 bg-slate-100'
                     }`}
                   >
                     <Icon className='w-10 h-10' />
@@ -85,11 +91,14 @@ const ManfaatSection = () => {
           })}
         </div>
 
-        {/* --- View All Button --- */}
+        {/* View All Button */}
         {manfaatForSection.length > 3 && (
           <div className='mt-12 text-end'>
-            <Link to='/manfaat'>
-              <Button variant='primary'>Lihat Semua Manfaat</Button>
+            <Link
+              to='/manfaat'
+              className='inline-flex items-center px-6 py-3 text-white bg-green-600 rounded-lg font-medium hover:bg-green-700 transition-colors'
+            >
+              Lihat Semua Manfaat
             </Link>
           </div>
         )}

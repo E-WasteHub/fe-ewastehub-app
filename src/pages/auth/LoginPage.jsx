@@ -10,6 +10,7 @@ const LoginPage = () => {
     <AuthLayout
       title='Selamat Datang Kembali!'
       subtitle='Masuk untuk melanjutkan ke E-wasteHub'
+      namaApp='EwasteHub'
     >
       <FormLogin />
     </AuthLayout>

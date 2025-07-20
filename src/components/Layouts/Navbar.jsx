@@ -2,9 +2,8 @@ import { Link, NavLink } from 'react-router-dom';
 import ewasteDarkLogo from '../../assets/img/ewasteDark.png';
 import ewasteLightLogo from '../../assets/img/ewasteLight.png';
 import useDarkMode from '../../hooks/useDarkMode';
-import ThemeSelector from '../Elements/ThemeSelector';
-// IMPOR FUNGSI DARI FILE BARU
 import { getNavbarComponentClass } from '../../utils/navbarStyles';
+import ThemeSelector from '../Elements/ThemeSelector';
 
 const Navbar = () => {
   const { isDarkMode } = useDarkMode();
@@ -25,22 +24,30 @@ const Navbar = () => {
       }`}
     >
       <div className='flex items-center justify-between px-4 py-3 mx-auto max-w-7xl'>
-        <div className='flex items-center'>
-          <img
-            src={isDarkMode ? ewasteDarkLogo : ewasteLightLogo}
-            alt='E-wasteHub Logo'
-            className='w-10 h-10 mr-4 rounded-xl'
-          />
-          <Link
-            to='/'
-            className={`text-xl font-bold transition-colors ${
-              isDarkMode
-                ? 'text-green-400 hover:text-green-300'
-                : 'text-green-600 hover:text-green-700'
-            }`}
-          >
-            EwasteHub
-          </Link>
+        <div className='flex items-center justify-between w-full lg:w-auto'>
+          {/* Logo & Text */}
+          <div className='flex items-center gap-2'>
+            <img
+              src={isDarkMode ? ewasteDarkLogo : ewasteLightLogo}
+              alt='E-wasteHub Logo'
+              className='w-10 h-10 rounded-xl'
+            />
+            <Link
+              to='/'
+              className={`text-xl font-bold transition-colors ${
+                isDarkMode
+                  ? 'text-green-400 hover:text-green-300'
+                  : 'text-green-600 hover:text-green-700'
+              }`}
+            >
+              EwasteHub
+            </Link>
+          </div>
+
+          {/* Dark Mode Toggle - MOBILE ONLY */}
+          <div className='block lg:hidden ml-2'>
+            <ThemeSelector />
+          </div>
         </div>
 
         <nav
@@ -53,11 +60,11 @@ const Navbar = () => {
               key={link.to}
               to={link.to}
               className={({ isActive }) =>
-                getNavbarComponentClass({
+                `relative ${getNavbarComponentClass({
                   isActive,
                   isDarkMode,
                   variant: 'navLink',
-                })
+                })}`
               }
               end={link.to === '/'}
             >

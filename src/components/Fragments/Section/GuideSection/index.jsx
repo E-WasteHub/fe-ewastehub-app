@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { panduanData } from '../../../../data/panduanData'; // Impor data yang benar
+import { panduanData } from '../../../../data/panduanData';
 import useDarkMode from '../../../../hooks/useDarkMode';
 import StepCard from './StepCard';
 

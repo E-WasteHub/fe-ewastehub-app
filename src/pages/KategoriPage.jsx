@@ -48,14 +48,14 @@ const KategoriPage = () => {
         <div className='max-w-4xl mx-auto'>
           <Badge variant='soft' color='green' size='lg' className='mb-6'>
             <Layers className='w-5 h-5 mr-2' />
-            Kategori E-Waste
+            Kategori Sampah Elektronik
           </Badge>
           <h1
             className={`text-4xl font-bold md:text-5xl ${
               isDarkMode ? 'text-white' : 'text-slate-900'
             }`}
           >
-            Kenali Jenis E-Waste
+            Kenali Jenis Sampah Elektronik
           </h1>
           <p
             className={`max-w-2xl mx-auto mt-4 text-lg md:text-xl ${
@@ -63,47 +63,28 @@ const KategoriPage = () => {
             }`}
           >
             Jelajahi berbagai kategori sampah elektronik yang dapat Anda kelola
-            melalui platform kami.
+            melalui platform kami. Berdasarkan klasifikasi International
+            Telecommunication Union (ITU).
           </p>
         </div>
       </section>
 
       {/* --- Categories Grid --- */}
       <section
-        className={`px-4 py-16 md:px-8 ${
+        className={`px-4 py-4 mb-12 md:px-8 ${
           isDarkMode ? 'bg-slate-900/50' : 'bg-white'
         }`}
       >
         <div className='max-w-6xl mx-auto'>
-          <div className='mb-12 text-center'>
-            <h2
-              className={`text-3xl font-bold ${
-                isDarkMode ? 'text-white' : 'text-slate-900'
-              }`}
-            >
-              6 Kategori Utama
-            </h2>
-            <p
-              className={`mt-2 ${
-                isDarkMode ? 'text-slate-400' : 'text-slate-600'
-              }`}
-            >
-              Berdasarkan klasifikasi International Telecommunication Union
-              (ITU).
-            </p>
-          </div>
-
-          {/* 2. Terapkan variant ke grid container */}
           <Motion.div
             className='grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3'
             variants={gridContainerVariants}
             initial='hidden'
-            animate='visible' // Gunakan 'animate' untuk memicu saat render, bukan 'whileInView'
+            animate='visible'
           >
             {kategoriData.map((category) => {
               const { Icon } = category;
               return (
-                // 3. Terapkan variant ke setiap item grid. Props menjadi lebih simpel.
                 <Motion.div
                   key={category.id}
                   variants={gridItemVariants}

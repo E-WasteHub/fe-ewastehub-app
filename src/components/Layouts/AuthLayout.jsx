@@ -1,94 +1,113 @@
 import { ArrowLeft, Moon, Sun } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import ewasteDarkLogo from '../../assets/img/ewasteDark.png';
-import ewasteLightLogo from '../../assets/img/ewasteLight.png';
+import ewasteDark from '../../assets/img/ewasteDark.png';
+import ewasteLight from '../../assets/img/ewasteLight.png';
 import useDarkMode from '../../hooks/useDarkMode';
 
-const AuthLayout = ({ children, title, subtitle }) => {
+const AuthLayout = ({ children, title, subtitle, namaApp }) => {
   const { isDarkMode, toggleTheme } = useDarkMode();
 
   return (
-    // Tambahkan 'relative' jika belum ada, untuk konteks positioning
-    <div className='relative flex flex-wrap min-h-screen'>
-      {/* Kolom Kiri (Form) */}
+    <div className='min-h-screen flex overflow-hidden auth-layout-container'>
+      {/* Navigation Controls */}
+      <div className='absolute top-4 left-4 z-50'>
+        <Link
+          to='/'
+          className={`flex items-center gap-1 text-sm font-medium transition-colors ${
+            isDarkMode
+              ? 'text-slate-400 hover:text-slate-200'
+              : 'text-slate-600 hover:text-slate-800'
+          }`}
+        >
+          <ArrowLeft size={16} />
+          Kembali
+        </Link>
+      </div>
+
+      <button
+        onClick={toggleTheme}
+        className='absolute top-4 right-4 z-50 p-2 rounded-full bg-green-600 text-white hover:bg-green-700 transition-colors shadow-lg'
+        aria-label='Toggle Light/Dark Mode'
+      >
+        {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
+      </button>
+
+      {/* Form Section */}
       <div
-        className={`flex w-full flex-col justify-center px-4 py-12 sm:px-6 lg:w-1/2 lg:flex-none lg:px-20 xl:px-24 transition-colors duration-300 ${
-          isDarkMode ? 'bg-white' : 'bg-slate-900'
+        className={`flex-1 flex items-center justify-center p-4 sm:p-8 ${
+          isDarkMode ? 'bg-slate-900' : 'bg-white'
         }`}
       >
-        <div className='w-full max-w-sm mx-auto lg:w-96'>
-          <div className='flex items-center justify-between mb-12'>
-            <Link
-              to='/'
-              className={`flex items-center gap-2 text-sm font-medium transition-colors ${
-                isDarkMode
-                  ? 'text-slate-600 hover:text-slate-900'
-                  : 'text-slate-400 hover:text-white'
+        <div className='w-full max-w-md'>
+          {/* Mobile Branding */}
+          <div className='flex items-center justify-center gap-2 mb-8 lg:hidden'>
+            <img
+              src={isDarkMode ? ewasteDark : ewasteLight}
+              alt={`${namaApp} Logo`}
+              className='w-8 h-8 rounded-md'
+            />
+            <h2
+              className={`text-2xl font-bold ${
+                isDarkMode ? 'text-green-400' : 'text-green-600'
               }`}
             >
-              <ArrowLeft size={16} />
-              Kembali ke Beranda
-            </Link>
+              {namaApp}
+            </h2>
           </div>
 
-          <div>
+          {/* Header */}
+          <div className='text-center lg:text-left mb-8'>
             <h1
-              className={`text-4xl font-bold ${
-                isDarkMode ? 'text-slate-900' : 'text-white'
+              className={`text-3xl font-bold ${
+                isDarkMode ? 'text-white' : 'text-slate-900'
               }`}
             >
               {title}
             </h1>
             <p
               className={`mt-2 ${
-                isDarkMode ? 'text-slate-600' : 'text-slate-400'
+                isDarkMode ? 'text-slate-400' : 'text-slate-600'
               }`}
             >
               {subtitle}
             </p>
           </div>
 
-          <div className='mt-8'>{children}</div>
+          {children}
         </div>
       </div>
 
-      {/* Kolom Kanan (Branding) */}
+      {/* Branding Section */}
       <div
-        className={`hidden w-1/2 lg:flex flex-col items-center justify-center p-12 text-center transition-colors duration-300 ${
-          isDarkMode ? 'bg-slate-900' : 'bg-white'
+        className={`hidden lg:flex flex-1 items-center justify-center ${
+          isDarkMode ? 'bg-white' : 'bg-slate-900'
         }`}
       >
-        <Link to='/' className='mb-6'>
-          <img
-            src={isDarkMode ? ewasteDarkLogo : ewasteLightLogo}
-            alt='E-wasteHub Logo'
-            className='w-24 h-24'
-          />
-        </Link>
-        <h2
-          className={`text-3xl font-bold ${
-            isDarkMode ? 'text-white' : 'text-slate-900'
-          }`}
-        >
-          EWasteHub
-        </h2>
-        <p
-          className={`mt-2 max-w-sm ${
-            isDarkMode ? 'text-slate-300' : 'text-slate-600'
-          }`}
-        >
-          Solusi Cerdas untuk Sampah Elektronik Anda. Mudah, Cepat, dan
-          Berdampak.
-        </p>
+        <div className='text-center'>
+          <Link to='/' className='inline-block mb-6'>
+            <img
+              src={isDarkMode ? ewasteLight : ewasteDark}
+              alt='E-wasteHub Logo'
+              className='w-24 h-24 mx-auto'
+            />
+          </Link>
+          <h2
+            className={`text-3xl font-bold ${
+              isDarkMode ? 'text-slate-900' : 'text-white'
+            }`}
+          >
+            EWasteHub
+          </h2>
+          <p
+            className={`mt-2 max-w-sm ${
+              isDarkMode ? 'text-slate-600' : 'text-slate-300'
+            }`}
+          >
+            Solusi Cerdas untuk Sampah Elektronik Anda. Mudah, Cepat, dan
+            Berdampak.
+          </p>
+        </div>
       </div>
-      {/* Tombol toggle LighMode / DarkMode */}
-      <button
-        onClick={toggleTheme}
-        className='fixed bottom-8 right-8 z-50 p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 active:scale-95 bg-green-600 text-white hover:bg-green-700'
-        aria-label='Toggle Light/Dark Mode'
-      >
-        {isDarkMode ? <Sun size={24} /> : <Moon size={24} />}
-      </button>
     </div>
   );
 };
